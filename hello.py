@@ -1,12 +1,15 @@
+# Activity 1
 print("=============================")
 print("Welcome here")
 print("My first post!")
 print("=============================")
 
+# Activity 2
 username = "cool_creator"
 bio = "Fun Blogger"
 followers = 100
 
+# Activity 3
 followers += 50
 print("Day 1:", followers)
 
@@ -20,9 +23,9 @@ print("Username:", username)
 print("Bio:", bio)
 print("Followers:", followers)
 
-# Activity 4
+# Activity 4 and 5
 username = input("Enter username: ")
-age = input("Enter Age: ")
+age = int(input("Enter Age: "))
 category = input("Enter Content Category: ")
 
 print("\nInstagram Profile")
@@ -30,3 +33,6 @@ print("=============================")
 print("Username:", username)
 print("Age:", age)
 print("Category:", category)
+
+if age>40 and category == "fun":
+    print("You are old what is fun for you??")
