@@ -1,6 +1,8 @@
 # Smart Inventory Auditor
 # Initialize inventory to zero
 inventory = 0
+# Variable for number of failed/rejected entries
+failed_entries = 0
 
 # While loop
 while True:
@@ -15,11 +17,13 @@ while True:
 
     # Rejects inputs which are not integers
     elif not stock_input.isdigit():
-        print("Error: Please enter a valid stock quantity or type'quit' to exit.")
+        failed_entries += 1
+        print("Error: Please enter a valid stock quantity or type 'quit' to exit.")
         continue
 
     # Reject negative numbers
     elif int(stock_input) < 0:
+        failed_entries += 1
         print("Error: Stock quantity cannot be negative.")
         continue
 
@@ -37,3 +41,7 @@ while True:
             print("Inventory updated")
             # Print current inventory total
             print("Inventory total:", inventory)
+
+# After the while loop breaks, Total Units Processed and Number of Failed/Rejected Entries are printed
+print("Total Units Processed: ", inventory)
+print("Number of Failed/Rejected Entries: ", failed_entries)
