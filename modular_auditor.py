@@ -3,6 +3,8 @@
 inventory = 0
 # Variable for number of failed/rejected entries
 failed_entries = 0
+#Variable for delivery amount
+delivery_amount = 0
 
 # get_valid_input() function
 def get_valid_input():
@@ -27,7 +29,8 @@ def get_valid_input():
 
 # process_delivery(current_total, new_value) function
 def process_delivery(current_total, new_value):
-    new_total = current_total + new_value
+    # Assuming the delivery amount is $1 per stock unit
+    new_total = current_total + new_value*1
     return new_total
 
 # While loop
@@ -46,11 +49,11 @@ while True:
         continue
 
     else:
-        # Call process_delivery(current_total, new_value) function to calculate delivery amount
-        delivery_amount = process_delivery(inventory, int(stock_input))
-
         # Update inventory
         inventory += int(stock_input)
+
+        # Call process_delivery(current_total, new_value) function to calculate delivery amount
+        delivery_amount = process_delivery(delivery_amount, int(stock_input))
 
         # If inventory exceeds 500, an alert will be printed
         # The while loop will break
