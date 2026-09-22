@@ -25,6 +25,11 @@ def get_valid_input():
     else:
         return int(stock_input)
 
+# process_delivery(current_total, new_value) function
+def process_delivery(current_total, new_value):
+    new_total = current_total + new_value
+    return new_total
+
 # While loop
 while True:
     # Call get_valid_input() function
@@ -41,6 +46,9 @@ while True:
         continue
 
     else:
+        # Call process_delivery(current_total, new_value) function to calculate delivery amount
+        delivery_amount = process_delivery(inventory, int(stock_input))
+
         # Update inventory
         inventory += int(stock_input)
 
