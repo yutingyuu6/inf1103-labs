@@ -43,6 +43,14 @@ def calculate_tax(amount):
     tax = round(amount * 0.10, 2)
     return tax
 
+# generate_report(total_units, deliveries_processed, failed_attempts) function
+def generate_report(total_units, deliveries_processed, failed_attempts):
+    print("Summary Report")
+    print("----------------")
+    print("Total Units Processed: ", total_units)
+    print("Total Deliveries Processed: ", deliveries_processed)
+    print("Number of Failed/Rejected Entries: ", failed_attempts)
+
 # While loop
 while True:
     # Call get_valid_input() function
@@ -86,7 +94,5 @@ while True:
             # Print tax for the current delivery
             print("Tax for current delivery: $", tax)
 
-# After the while loop breaks, Total Units Processed, Total Deliveries Processed, and Number of Failed/Rejected Entries are printed
-print("Total Units Processed: ", inventory)
-print("Total Deliveries Processed: ", deliveries_processed)
-print("Number of Failed/Rejected Entries: ", failed_entries)
+# After the while loop breaks, call generate_report(total_units, deliveries_processed, failed_attempts) function to print summary report
+generate_report(inventory, deliveries_processed, failed_entries)
