@@ -4,6 +4,8 @@ inventory = 0
 # Variable for number of failed/rejected entries
 failed_entries = 0
 
+# Variable for number of deliveries processed
+deliveries_processed = 0
 # Variable for delivery amount
 delivery_amount = 0
 # Assuming the delivery amount is $1 per stock unit
@@ -60,6 +62,9 @@ while True:
         # Update inventory
         inventory += int(stock_input)
 
+        # Update total deliveries processed
+        deliveries_processed += 1
+
         # Call process_delivery(current_total, new_value) function to calculate delivery amount
         delivery_amount = process_delivery(delivery_amount, int(stock_input))
 
@@ -81,6 +86,7 @@ while True:
             # Print tax for the current delivery
             print("Tax for current delivery: $", tax)
 
-# After the while loop breaks, Total Units Processed and Number of Failed/Rejected Entries are printed
+# After the while loop breaks, Total Units Processed, Total Deliveries Processed, and Number of Failed/Rejected Entries are printed
 print("Total Units Processed: ", inventory)
+print("Total Deliveries Processed: ", deliveries_processed)
 print("Number of Failed/Rejected Entries: ", failed_entries)
