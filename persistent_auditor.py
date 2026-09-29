@@ -1,13 +1,16 @@
 # Smart Inventory Auditor
+
+# File used to store inventory data
+INVENTORY_FILE = "inventory.txt"
+
+# List to store every valid transaction amount
+transaction_list = []
+
 # Initialize inventory to zero
 inventory = 0
 # Variable for number of failed/rejected entries
 failed_entries = 0
 
-# Variable for number of deliveries processed
-deliveries_processed = 0
-# Variable for delivery amount
-delivery_amount = 0
 # Assuming the delivery amount is $1 per stock unit
 delivery_unit_price = 1
 
@@ -51,6 +54,44 @@ def generate_report(total_units, deliveries_processed, failed_attempts):
     print("Total Deliveries Processed: ", deliveries_processed)
     print("Number of Failed/Rejected Entries: ", failed_attempts)
 
+#load_inventory() function
+def load_inventory():
+    try:
+        # Open inventory file in read mode
+        with open(INVENTORY_FILE, "r") as file:
+            # Returns a list of each line in the inventory file
+            lines = file.readlines()
+
+            # Get first line of the saved inventory
+            inventory = int(lines[0].strip())
+
+            # Check for any saved transactions
+            if len(lines) > 1:
+                # If there are saved transactions, save transactions into the list
+                transaction_list = [
+                    int(amount)
+                    for amount in lines[1].strip().split(",")
+                    if amount
+                ]
+            else:
+                # If there are no transactions, list remains empty
+                transaction_list = []
+
+            # Return inventory and transaction_list
+            return inventory, transaction_list
+    # If inventory file does not exist, return 0 and start with an empty transaction list
+    except FileNotFoundError:
+        return 0, []
+
+# Call load_inventory() function
+inventory, transaction_list = load_inventory()
+
+# Update number of deliveries processed based on the length of transaction_list
+deliveries_processed = len(transaction_list)
+
+# Calculate previous delivery amount
+delivery_amount = sum(transaction_list) * delivery_unit_price
+
 # While loop
 while True:
     # Call get_valid_input() function
@@ -70,7 +111,10 @@ while True:
         # Update inventory
         inventory += int(stock_input)
 
-        # Update total deliveries processed
+        # Update valid transaction to list
+        transaction_list.append(int(stock_input))
+
+        # Update total number of deliveries processed
         deliveries_processed += 1
 
         # Call process_delivery(current_total, new_value) function to calculate delivery amount
