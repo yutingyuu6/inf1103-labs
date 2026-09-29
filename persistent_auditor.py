@@ -83,6 +83,14 @@ def load_inventory():
     except FileNotFoundError:
         return 0, []
 
+# save_inventory(inventory, transaction_list) function
+def save_inventory(inventory, transaction_list):
+    # Open inventory file in write mode
+    with open(INVENTORY_FILE, "w") as file:
+        # Write total inventory and transaction list to inventory.txt
+        file.write(str(inventory) + "\n")
+        file.write(",".join(map(str, transaction_list)))
+
 # Call load_inventory() function
 inventory, transaction_list = load_inventory()
 
@@ -92,13 +100,21 @@ deliveries_processed = len(transaction_list)
 # Calculate previous delivery amount
 delivery_amount = sum(transaction_list) * delivery_unit_price
 
+# Print previously saved transactions
+print("Current Orders: ")
+print(transaction_list)
+
+
 # While loop
 while True:
     # Call get_valid_input() function
     stock_input = get_valid_input()
 
-    # If user enters 'quit', the while loop will break
+    # If user enters 'quit', the valid transactions will be saved and the while loop will break
     if stock_input == "quit":
+        # Call save_inventory(inventory, transaction_list) function
+        save_inventory(inventory, transaction_list)
+        print("Order successfully saved to inventory.txt")
         print("Quitting the program.")
         break
 
