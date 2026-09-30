@@ -11,13 +11,19 @@ inventory = 0
 # Variable for number of failed/rejected entries
 failed_entries = 0
 
+# Variable for number of deliveries processed
+deliveries_processed = 0
+
+# Variable for delivery amount
+delivery_amount = 0
+
 # Assuming the delivery amount is $1 per stock unit
 delivery_unit_price = 1
 
 # get_valid_input() function
 def get_valid_input():
     # User input for stock quantity
-    stock_input = input("Enter stock quantity: (or type 'quit' to exit)")
+    stock_input = input("Enter quantity: (or type 'quit' to exit)")
 
     # Changes stock_input to lowercase
     if stock_input.lower() == 'quit':
@@ -56,30 +62,38 @@ def generate_report(total_units, deliveries_processed, failed_attempts):
 
 #load_inventory() function
 def load_inventory():
+    # Open inventory file in read mode to load the total inventory and saved transaction history
+    # If inventory file does not exist, return 0 and start with an empty transaction list
     try:
-        # Open inventory file in read mode
         with open(INVENTORY_FILE, "r") as file:
-            # Returns a list of each line in the inventory file
             lines = file.readlines()
 
-            # Get first line of the saved inventory
-            inventory = int(lines[0].strip())
-
-            # Check for any saved transactions
-            if len(lines) > 1:
-                # If there are saved transactions, save transactions into the list
-                transaction_list = [
-                    int(amount)
-                    for amount in lines[1].strip().split(",")
-                    if amount
-                ]
+            # Get the total inventory from line 1
+            if len(lines) >= 1:
+                inventory = int(lines[0].strip())
             else:
-                # If there are no transactions, list remains empty
-                transaction_list = []
+                inventory = 0
+
+            transaction_list = []
+
+            for line in lines[1:]:
+                line = line.strip()
+
+                if line == "":
+                    continue
+
+                parts = line.split(",", 2)
+
+                if len(parts) == 3:
+                    product_id = int(parts[0].strip())
+                    product_name = parts[1].strip()
+                    quantity = int(parts[2].strip())
+
+                    transaction_list.append({"product_id": product_id, "product_name": product_name, "quantity": quantity})
 
             # Return inventory and transaction_list
             return inventory, transaction_list
-    # If inventory file does not exist, return 0 and start with an empty transaction list
+        
     except FileNotFoundError:
         return 0, []
 
@@ -87,9 +101,14 @@ def load_inventory():
 def save_inventory(inventory, transaction_list):
     # Open inventory file in write mode
     with open(INVENTORY_FILE, "w") as file:
-        # Write total inventory and transaction list to inventory.txt
+        # Write total inventory to inventory.txt
         file.write(str(inventory) + "\n")
-        file.write(",".join(map(str, transaction_list)))
+
+        # Write transaction history to inventory.txt
+        for transaction in transaction_list:
+            file.write(
+                str(transaction["product_id"]) + "," + transaction["product_name"] + "," + str(transaction["quantity"]) + "\n"
+            )
 
 # Call load_inventory() function
 inventory, transaction_list = load_inventory()
@@ -98,15 +117,46 @@ inventory, transaction_list = load_inventory()
 deliveries_processed = len(transaction_list)
 
 # Calculate previous delivery amount
-delivery_amount = sum(transaction_list) * delivery_unit_price
+for transaction in transaction_list:
+    delivery_amount += (
+        transaction["quantity"] * delivery_unit_price
+    )
 
 # Print previously saved transactions
-print("Current Orders: ")
-print(transaction_list)
+print("Current Orders:")
+print()
 
+if len(transaction_list) == 0:
+    print("No transactions has been saved yet.")
+
+else:
+    for transaction in transaction_list:
+        print(
+            str(transaction["product_id"]) + ", " + transaction["product_name"] + ", " + str(transaction["quantity"])
+        )
+
+print()
 
 # While loop
 while True:
+
+    print()
+    # Get user input for product name
+    product_name = input("Enter Product Name: (or type 'quit' to exit)")
+
+    # If user quits, inventory and transactions will be saved
+    if product_name.lower() == "quit":
+        save_inventory(inventory, transaction_list)
+        print("Order successfully saved to inventory.txt")
+        print("Quitting the program.")
+        break
+
+    # If product_name input is empty, then increment failed_entries and print error
+    elif product_name.strip() == "":
+        failed_entries += 1
+        print("Error: Please enter the product name")
+        continue
+
     # Call get_valid_input() function
     stock_input = get_valid_input()
 
@@ -124,11 +174,25 @@ while True:
         continue
 
     else:
+
+        # Generate Product ID
+        if len(transaction_list) == 0:
+            product_id = 1001
+        
+        else:
+            product_id = (transaction_list[-1]["product_id"] + 1)
+
         # Update inventory
         inventory += int(stock_input)
 
+        transaction = {
+            "product_id": product_id,
+            "product_name": product_name,
+            "quantity": int(stock_input)
+        }
+
         # Update valid transaction to list
-        transaction_list.append(int(stock_input))
+        transaction_list.append(transaction)
 
         # Update total number of deliveries processed
         deliveries_processed += 1
@@ -140,12 +204,19 @@ while True:
         tax = calculate_tax(int(stock_input)*delivery_unit_price)
 
         # If inventory exceeds 500, an alert will be printed
-        # The while loop will break
+        # Inventory will be saved and the while loop will break
         if inventory > 500:
             print("Alert: Total inventory exceeded 500!")
+            save_inventory(inventory, transaction_list)
             break
             
         else:
+            print()
+            print("New Order Added")
+            print(str(product_id) + ", " + product_name + ", " + str(stock_input))
+            print()
+            print("Order successfully saved to inventory.txt")
+            print()
             print("Inventory updated")
             # Print current inventory total
             print("Inventory total:", inventory)
