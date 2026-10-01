@@ -147,6 +147,7 @@ while True:
     # If user quits, inventory and transactions will be saved
     if product_name.lower() == "quit":
         save_inventory(inventory, transaction_list)
+        print()
         print("Order successfully saved to inventory.txt")
         print("Quitting the program.")
         break
@@ -164,6 +165,7 @@ while True:
     if stock_input == "quit":
         # Call save_inventory(inventory, transaction_list) function
         save_inventory(inventory, transaction_list)
+        print()
         print("Order successfully saved to inventory.txt")
         print("Quitting the program.")
         break
