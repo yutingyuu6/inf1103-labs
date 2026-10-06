@@ -19,7 +19,8 @@ def load_inventory():
 
             print("Inventory loaded successfully.")
             return inventory
-        
+
+        # If there are operating system errors, print unable to load inventory and start with an empty inventory
         except (json.JSONDecodeError, OSError):
             print("Unable to load inventory.")
             print("Starting with an empty inventory.")
@@ -56,6 +57,7 @@ def add_product(inventory):
             print("Price and stock cannot be negative.")
             return
 
+    # If price or stock value is invalid, print error message
     except ValueError:
         print("Invalid price or stock quantity.")
         return
@@ -96,7 +98,8 @@ def update_stock(inventory):
         if new_stock < 0:
             print("Stock quantity cannot be negative.")
             return
-        
+
+    # If new stock input is invalid, print error message
     except ValueError:
         print("Invalid stock quantity.")
         return
@@ -152,6 +155,21 @@ def display_all(inventory):
             )
 
     print("-" * 48)
+
+# save_inventory(inventory) function
+def save_inventory(inventory):
+    print("\nSaving Inventory...")
+
+    try:
+        # Open inventory.json file in write mode and save inventory to inventory.json
+        with open(INVENTORY_FILE, "w") as file:
+            json.dump(inventory, file, indent=4)
+
+        print("Inventory saved successfully to inventory.json.")
+
+    # If there are operating system errors, print unable to save inventory
+    except OSError:
+        print("Unable to save inventory.")
 
 # while loop for executing the program
 while True:
