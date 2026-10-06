@@ -5,6 +5,32 @@ import os
 # inventory.json file
 INVENTORY_FILE = "inventory.json"
 
+# load_inventory() function
+def load_inventory():
+
+    # If inventory.json file exists, print inventory.json file found
+    if os.path.exists(INVENTORY_FILE):
+        print("inventory.json found.")
+
+        try:
+            # Open inventory.json file in read mode
+            with open(INVENTORY_FILE, "r") as file:
+                inventory = json.load(file)
+
+            print("Inventory loaded successfully.")
+            return inventory
+        
+        except (json.JSONDecodeError, OSError):
+            print("Unable to load inventory.")
+            print("Starting with an empty inventory.")
+            return {}
+
+    # If inventory.json file does not exist, return with an empty dictionary in the inventory
+    else:
+        print("inventory.json not found.")
+        print("Starting with an empty inventory.")
+        return {}
+
 # add_product(inventory) function
 def add_product(inventory):
     print("\nAdd New Product")
@@ -127,18 +153,21 @@ def display_all(inventory):
 
     print("-" * 48)
 
-print ("=" * 40)
-print("INVENTORY MANAGEMENT SYSTEM")
-print ("=" * 40)
+# while loop for executing the program
+while True:
+    print ("=" * 40)
+    print("INVENTORY MANAGEMENT SYSTEM")
+    print ("=" * 40)
 
-print()
-print("---------- MENU ----------")
-print("1. Display All Products")
-print("2. Add Product")
-print("3. Update Stock")
-print("4. Search Product")
-print("5. Save Inventory")
-print("6. Exit")
-print("--------------------")
-print()
-menu_option = input("Enter option: ")
+    print()
+    print("---------- MENU ----------")
+    print("1. Display All Products")
+    print("2. Add Product")
+    print("3. Update Stock")
+    print("4. Search Product")
+    print("5. Save Inventory")
+    print("6. Exit")
+    print("--------------------")
+    print()
+
+    menu_option = input("Enter option: ").strip()
