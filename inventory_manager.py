@@ -80,9 +80,56 @@ def update_stock(inventory):
 
     print("Stock updated successfully.")
 
-print ("========================================")
+# search_product(inventory) function
+def search_product(inventory):
+    print("\nSearch Product")
+
+    # User input for product id to search
+    product_id = input("Enter Product ID: ").strip()
+
+    # If product id does not exist in inventory, print product not found
+    if product_id not in inventory:
+        print("Product not found.")
+        return
+
+    # If product id exists in inventory, print product details
+    else:
+        product = inventory[product_id]
+
+        print("Product Found")
+        print("-" * 48)
+        print(f"ID: {product_id}")
+        print(f"Name: {product['name']}")
+        print(f"Price: ${product['price']:.2f}")
+        print(f"Stock: {product['stock']}")
+        print("-" * 48)
+
+# display_all(inventory) function
+def display_all(inventory):
+    print("\nCurrent Inventory")
+    print("-" * 48)
+
+    # If inventory is empty, print inventory is empty
+    if not inventory:
+        print("Inventory is empty.")
+        return
+
+    # If inventory is not empty, print details of all the products in inventory
+    else:
+        # For loop to print the details of all the products in the inventory
+        for product_id, product in inventory.items():
+            print(
+                f"ID: {product_id} | "
+                f"Name: {product['name']} | "
+                f"Price: ${product['price']:.2f} | "
+                f"Stock: {product['stock']}"
+            )
+
+    print("-" * 48)
+
+print ("=" * 40)
 print("INVENTORY MANAGEMENT SYSTEM")
-print ("========================================")
+print ("=" * 40)
 
 print()
 print("---------- MENU ----------")
