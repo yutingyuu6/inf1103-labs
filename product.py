@@ -20,7 +20,11 @@ class Product:
         return self.__stock
 
     def update_stock(self, quantity: int):
-        """Function for updating stock quantity"""
+        """
+        Function for updating stock quantity
+        If quantity is lower than zero, ValueError is raised and error message is printed.
+        If quantity is non-negative, product stock is updated.
+        """
 
         if quantity < 0:
             raise ValueError("Error: Stock Quantity cannot be negative.")
@@ -28,7 +32,7 @@ class Product:
         self.__stock = quantity
 
     def display_product_info(self):
-        """Function for displaying product information"""
+        """Function for printing product information"""
         
         print(
             f"ID: {self.__product_id} | ",
