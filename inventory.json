@@ -18,5 +18,10 @@
         "name": "Monitor",
         "price": 299.99,
         "stock": 10
+    },
+    "P005": {
+        "name": "Headphones",
+        "price": 49.9,
+        "stock": 22
     }
 }
