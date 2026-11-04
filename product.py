@@ -1,5 +1,7 @@
-class Product:
-    """Class for Product"""
+from abc import ABC, abstractmethod
+
+class Product(ABC):
+    """Abstract class for Product"""
 
     def __init__(self, product_id: str, name: str, price: float, stock: int):
         self.__product_id = product_id
@@ -40,3 +42,8 @@ class Product:
             f"Price: ${self.__price:.2f} | ",
             f"Stock: {self.__stock}"
         )
+
+    @abstractmethod
+    def get_fulfilment_info(self):
+        """Function for getting product type"""
+        pass
