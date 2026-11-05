@@ -2,26 +2,43 @@
     "P001": {
         "name": "Laptop",
         "price": 1200.0,
-        "stock": 15
+        "stock": 15,
+        "type": "physical",
+        "weight": 4.5
+    },
+    "D001": {
+        "name": "Python E-book",
+        "price": 19.99,
+        "stock": 30,
+        "type": "digital",
+        "download_size": 30.0
     },
     "P002": {
         "name": "Mouse",
         "price": 25.5,
-        "stock": 50
+        "stock": 50,
+        "type": "physical",
+        "weight": 0.5
     },
     "P003": {
         "name": "Keyboard",
         "price": 45.0,
-        "stock": 25
+        "stock": 25,
+        "type": "physical",
+        "weight": 1.0
+    },
+    "D002": {
+        "name": "MySQL E-book",
+        "price": 20.99,
+        "stock": 26,
+        "type": "digital",
+        "download_size": 50.0
     },
     "P004": {
         "name": "Monitor",
         "price": 299.99,
-        "stock": 10
-    },
-    "P005": {
-        "name": "Headphones",
-        "price": 49.9,
-        "stock": 22
+        "stock": 10,
+        "type": "physical",
+        "weight": 4.0
     }
 }
