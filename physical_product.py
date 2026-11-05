@@ -1,4 +1,5 @@
 from product import Product
+from can_be_shipped import CanBeShipped
 
 class PhysicalProduct(Product):
     """Class for Physical Product"""
@@ -28,3 +29,11 @@ class PhysicalProduct(Product):
         """
 
         return "Physical shipping is required."
+
+    def calculate_shipping_cost(self):
+        """
+        Function for calculating and returning the shipping cost based on the product weight
+        """
+
+        shipping_cost_per_kg = 3.0
+        return self.__weight * shipping_cost_per_kg
