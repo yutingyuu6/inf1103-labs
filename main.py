@@ -2,9 +2,11 @@
 import json
 import os
 
-# import Product and Inventory
-from product import Product
+# import Inventory, PhysicalProduct, DigitalProduct and CanBeShipped classes
 from inventory import Inventory
+from physical_product import PhysicalProduct
+from digital_product import DigitalProduct
+from can_be_shipped import CanBeShipped
 
 # inventory.json file
 INVENTORY_FILE = "inventory.json"
@@ -33,7 +35,21 @@ def load_inventory():
 
             # For every product in saved inventory data, each saved dictionary is converted to a Product object.
             for product_id, details in saved_inventory.items():
-                product = Product(product_id, details["name"], float(details["price"]), int(details["stock"]))
+
+                product_type = details["type"]
+
+                # If product type is physical product, a Physical Product object is created.
+                if product_type == "physical":
+                    product = PhysicalProduct(product_id, details["name"], float(details["price"]), int(details["stock"]), float(details["weight"]))
+
+                # If product type is digital product, a Digital Product object is created.
+                elif product_type == "digital":
+                    product = DigitalProduct(product_id, details["name"], float(details["price"]), int(details["stock"]), float(details["download_size"]))
+
+                # If product type is neither physical nor digital, invalid product type message is printed and the product is skipped.
+                else:
+                    print(f"Invalid product type for product ID {product_id}.")
+                    continue
 
                 inventory.add_product(product)
 
@@ -90,8 +106,53 @@ def add_product(inventory):
         print("\nInvalid price or stock quantity.")
         return
 
-    # A Product object is created.
-    product = Product(product_id, product_name, price, stock)
+    # User input for product type
+    print("\nSelect Product Type:", 
+          "\n1. Physical Product", 
+          "\n2. Digital Product")
+    
+    product_type = input("Enter choice (1 or 2): ").strip()
+
+    # If product type is physical product, prompt user for weight input.
+    if product_type == "1":
+        try:
+            weight = float(input("Weight (kg): "))
+
+            # If weight input is negative, error message is printed.
+            if weight < 0:
+                print("\nWeight cannot be negative.")
+                return
+
+        # If weight input is invalid, error message is printed.
+        except ValueError:
+            print("\nInvalid weight.")
+            return
+
+        # A Physical Product object is created.
+        product = PhysicalProduct(product_id, product_name, price, stock, weight)
+
+    # If product type is digital product, prompt user for download size input.
+    elif product_type == "2":
+        try:
+            download_size = float(input("Download Size (MB): "))
+
+            # If download size input is negative, error message is printed.
+            if download_size < 0:
+                print("\nDownload size cannot be negative.")
+                return
+
+        # If download size input is invalid, error message is printed.
+        except ValueError:
+            print("\nInvalid download size.")
+            return
+
+        # A Digital Product object is created.
+        product = DigitalProduct(product_id, product_name, price, stock, download_size)
+
+    # If product type input is invalid, error message is printed.
+    else:
+        print("\nInvalid product type.")
+        return
 
     # If Product is added to inventory successfully, product added successfully message is printed.
     if inventory.add_product(product):
