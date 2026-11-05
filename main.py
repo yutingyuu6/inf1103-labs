@@ -249,6 +249,16 @@ def save_inventory(inventory):
 
             saved_inventory[product_id] = {"name": product.get_name(), "price": product.get_price(), "stock": product.get_stock()}
 
+            # If product is physical, the product type and weight are stored in the dictionary.
+            if isinstance(product, PhysicalProduct):
+                saved_inventory[product_id]["type"] = "physical"
+                saved_inventory[product_id]["weight"] = product.get_weight()
+
+            # If product is digital, the product type and download size are stored in the dictionary.
+            elif isinstance(product, DigitalProduct):
+                saved_inventory[product_id]["type"] = "digital"
+                saved_inventory[product_id]["download_size"] = product.get_download_size()
+
         # Open inventory.json file in write mode and save inventory to inventory.json
         with open(INVENTORY_FILE, "w") as file:
             json.dump(saved_inventory, file, indent=4)
