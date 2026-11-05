@@ -3,8 +3,8 @@ from product import Product
 class PhysicalProduct(Product):
     """Class for Physical Product"""
 
-    def __init__(self, product_id: str, name: str, price: float, weight: float):
-        super().__init__(product_id, name, price)
+    def __init__(self, product_id: str, name: str, price: float, stock: int, weight: float):
+        super().__init__(product_id, name, price, stock)
         self.__weight = weight
 
     def get_weight(self):
