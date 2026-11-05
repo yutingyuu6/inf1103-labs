@@ -1,6 +1,6 @@
 from physical_product import PhysicalProduct
 
-product = PhysicalProduct("P001", "Laptop", 1200.0, 15)
+product = PhysicalProduct("P001", "Laptop", 1200.0, 15, 4.5)
 
 product.display_product_info()
 
