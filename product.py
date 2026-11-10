@@ -1,13 +1,15 @@
 from abc import ABC, abstractmethod
+from supplier import Supplier
 
 class Product(ABC):
     """Abstract class for Product"""
 
-    def __init__(self, product_id: str, name: str, price: float, stock: int):
+    def __init__(self, product_id: str, name: str, price: float, stock: int, supplier: Supplier):
         self.__product_id = product_id
         self.__name = name
         self.__price = price
         self.__stock = stock
+        self.__supplier: Supplier = supplier
 
     def get_product_id(self):
         return self.__product_id
