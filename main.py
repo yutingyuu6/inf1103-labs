@@ -233,6 +233,17 @@ def display_all(inventory):
 
     inventory.display_all()
 
+def remove_product(inventory):
+    """
+    Function for removing product from inventory
+    """
+
+    print("\nRemove Product")
+
+    # User input for product id to remove
+    product_id = input("Enter Product ID to remove: ").strip()
+    inventory.remove_product(product_id)
+
 def save_inventory(inventory):
     """
     Function for saving inventory
@@ -287,8 +298,9 @@ def main():
     print("2. Add Product")
     print("3. Update Stock")
     print("4. Search Product")
-    print("5. Save Inventory")
-    print("6. Exit")
+    print("5. Remove Product")
+    print("6. Save Inventory")
+    print("7. Exit")
     print("--------------------")
 
     # while loop for executing the program
@@ -312,12 +324,16 @@ def main():
         elif menu_option == "4":
             search_product(inventory)
 
-        # If option 5 is chosen, call save_inventory(inventory) function
+        # If option 5 is chosen, call remove_product(inventory) function
         elif menu_option == "5":
+            remove_product(inventory)
+
+        # If option 6 is chosen, call save_inventory(inventory) function
+        elif menu_option == "6":
             save_inventory(inventory)
 
-        # If option 6 is chosen, call save_inventory(inventory) function to save inventory and break from while loop exit the program
-        elif menu_option == "6":
+        # If option 7 is chosen, call save_inventory(inventory) function to save inventory and break from while loop exit the program
+        elif menu_option == "7":
             print("\nSaving inventory before exit...")
             save_inventory(inventory)
             print("Inventory saved successfully.")

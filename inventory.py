@@ -4,9 +4,9 @@ class Inventory:
     """Class for Inventory"""
 
     def __init__(self):
-        self.__products = []
+        self.__products: list[Product] = []
 
-    def add_product(self, product: Product):
+    def add_product(self, product: Product) -> bool:
         """
         Function for adding product
         If duplicate product_id exists, False is returned.
@@ -19,7 +19,7 @@ class Inventory:
         self.__products.append(product)
         return True
 
-    def search_product(self, product_id: str):
+    def search_product(self, product_id: str) -> Product | None:
         """
         Function for searching product
         If the product_id exists, the product is returned.
@@ -32,7 +32,7 @@ class Inventory:
 
         return None
 
-    def display_all(self):
+    def display_all(self) -> None:
         """
         Function for displaying information of all products
         If no product exists, inventory is empty message is printed.
@@ -57,3 +57,18 @@ class Inventory:
         """
 
         return self.__products.copy()
+
+    def remove_product(self, product_id: str) -> None:
+        """
+        Function for removing product
+        For every product in the inventory, if the product_id exists, the product is removed from the inventory.
+        If the product_id does not exist, product_id not found message is printed.
+        """
+
+        for product in self.__products:
+            if product.get_product_id() == product_id:
+                self.__products.remove(product)
+                print(f"Product {product_id} has been removed from the inventory.")
+                return
+
+        print(f"Product {product_id} not found in the inventory.")
