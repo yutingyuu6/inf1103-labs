@@ -8,14 +8,14 @@ class DigitalProduct(Product):
         super().__init__(product_id, name, price, stock, supplier)
         self.__download_size = download_size
 
-    def get_download_size(self):
+    def get_download_size(self) -> float:
         """
         Function for returning the download size of the digital product
         """
 
         return self.__download_size
 
-    def display_product_info(self):
+    def display_product_info(self) -> None:
         """
         Function for printing digital product information
         """
@@ -23,7 +23,7 @@ class DigitalProduct(Product):
         super().display_product_info()
         print(f"Download Size: {self.__download_size:.2f} MB")
 
-    def get_fulfilment_info(self):
+    def get_fulfilment_info(self) -> str:
         """
         Function for returning the digital product fulfilment information
         """
