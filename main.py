@@ -2,11 +2,12 @@
 import json
 import os
 
-# import Inventory, PhysicalProduct, DigitalProduct and CanBeShipped classes
+# import Inventory, PhysicalProduct, DigitalProduct, CanBeShipped and Supplier classes
 from inventory import Inventory
 from physical_product import PhysicalProduct
 from digital_product import DigitalProduct
 from can_be_shipped import CanBeShipped
+from supplier import Supplier
 
 # inventory.json file
 INVENTORY_FILE = "inventory.json"
@@ -36,15 +37,23 @@ def load_inventory():
             # For every product in saved inventory data, each saved dictionary is converted to a Product object.
             for product_id, details in saved_inventory.items():
 
+                supplier_details = details["supplier"]
+
+                supplier = Supplier(
+                    supplier_id=supplier_details["supplier_id"],
+                    name=supplier_details["name"],
+                    contact_email=supplier_details["contact_email"]
+                )
+
                 product_type = details["type"]
 
                 # If product type is physical product, a Physical Product object is created.
                 if product_type == "physical":
-                    product = PhysicalProduct(product_id, details["name"], float(details["price"]), int(details["stock"]), float(details["weight"]))
+                    product = PhysicalProduct(product_id, details["name"], float(details["price"]), int(details["stock"]), float(details["weight"]), supplier)
 
                 # If product type is digital product, a Digital Product object is created.
                 elif product_type == "digital":
-                    product = DigitalProduct(product_id, details["name"], float(details["price"]), int(details["stock"]), float(details["download_size"]))
+                    product = DigitalProduct(product_id, details["name"], float(details["price"]), int(details["stock"]), float(details["download_size"]), supplier)
 
                 # If product type is neither physical nor digital, invalid product type message is printed and the product is skipped.
                 else:
@@ -106,6 +115,14 @@ def add_product(inventory):
         print("\nInvalid price or stock quantity.")
         return
 
+    # User inputs for supplier
+    supplier_id = input("Supplier ID: ").strip()
+    supplier_name = input("Supplier Name: ").strip()
+    supplier_email = input("Supplier Email: ").strip()
+
+    # Create a Supplier object
+    supplier = Supplier(supplier_id, supplier_name, supplier_email)
+
     # User input for product type
     print("\nSelect Product Type:", 
           "\n1. Physical Product", 
@@ -129,7 +146,7 @@ def add_product(inventory):
             return
 
         # A Physical Product object is created.
-        product = PhysicalProduct(product_id, product_name, price, stock, weight)
+        product = PhysicalProduct(product_id, product_name, price, stock, weight, supplier)
 
     # If product type is digital product, prompt user for download size input.
     elif product_type == "2":
@@ -147,7 +164,7 @@ def add_product(inventory):
             return
 
         # A Digital Product object is created.
-        product = DigitalProduct(product_id, product_name, price, stock, download_size)
+        product = DigitalProduct(product_id, product_name, price, stock, download_size, supplier)
 
     # If product type input is invalid, error message is printed.
     else:
@@ -259,6 +276,10 @@ def save_inventory(inventory):
             product_id = product.get_product_id()
 
             saved_inventory[product_id] = {"name": product.get_name(), "price": product.get_price(), "stock": product.get_stock()}
+
+            supplier = product.get_supplier()
+
+            saved_inventory[product_id]["supplier"] = {"supplier_id": supplier.get_supplier_id(), "name": supplier.get_supplier_name(), "contact_email": supplier.get_contact_email()}
 
             # If product is physical, the product type and weight are stored in the dictionary.
             if isinstance(product, PhysicalProduct):

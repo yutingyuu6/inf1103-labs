@@ -6,6 +6,15 @@ class Supplier:
         self.__name = name
         self.__contact_email = contact_email
 
+    def get_supplier_id(self) -> str:
+        return self.__supplier_id
+
+    def get_supplier_name(self) -> str:
+        return self.__name
+
+    def get_contact_email(self) -> str:
+        return self.__contact_email
+
     def display_information(self) -> None:
         """
         Function for printing supplier information
