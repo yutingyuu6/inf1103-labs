@@ -19,4 +19,4 @@ class OrderLine:
         Function for calculating the subtotal of the order line.
         """
 
-        return self.product.price * self.quantity
+        return self.__product.get_price() * self.__quantity
