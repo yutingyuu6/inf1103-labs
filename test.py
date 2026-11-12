@@ -72,15 +72,6 @@ def show_product_details(product: Product) -> None:
     print(product.get_fulfilment_info())
     print("Test 4 passed")
 
-supplier = Supplier("S001", "Tech Supplies Inc.", "tech_supplies@email.com")
-
-physical_product = PhysicalProduct("P001", "Laptop", 1200.0, 15, 4.5, supplier)
-
-digital_product = DigitalProduct("P002", "E-book", 19.9, 30, 30.0, supplier)
-
-show_product_details(physical_product)
-show_product_details(digital_product)
-
 def test_polymorphism():
     """
     Function for testing polymorphism.
@@ -101,3 +92,20 @@ def test_polymorphism():
     print("Test 5 passed")
 
 test_polymorphism()
+
+
+if __name__ == "__main__":
+    test_product_supplier_association()
+    test_inventory_aggregation()
+    test_order()
+
+    supplier = Supplier("S001", "Tech Supplies Inc.", "tech_supplies@email.com")
+
+    physical_product = PhysicalProduct("P001", "Laptop", 1200.0, 15, 4.5, supplier)
+
+    digital_product = DigitalProduct("P002", "E-book", 19.9, 30, 30.0, supplier)
+
+    show_product_details(physical_product)
+    show_product_details(digital_product)
+
+    test_polymorphism()
