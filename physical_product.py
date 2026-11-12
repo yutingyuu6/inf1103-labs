@@ -7,7 +7,7 @@ class PhysicalProduct(Product, CanBeShipped):
 
     def __init__(self, product_id: str, name: str, price: float, stock: int, weight: float, supplier: Supplier):
         super().__init__(product_id, name, price, stock, supplier)
-        self.__weight = weight
+        self.__weight: float = weight
 
     def get_weight(self) -> float:
         """

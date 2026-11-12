@@ -26,7 +26,7 @@ class Product(ABC):
     def get_supplier(self) -> Supplier:
         return self.__supplier
 
-    def update_stock(self, quantity: int):
+    def update_stock(self, quantity: int) -> None:
         """
         Function for updating stock quantity
         If quantity is lower than zero, ValueError is raised and error message is printed.
@@ -38,7 +38,7 @@ class Product(ABC):
 
         self.__stock = quantity
 
-    def display_product_info(self):
+    def display_product_info(self) -> None:
         """Function for printing product information"""
         
         print(
@@ -49,6 +49,6 @@ class Product(ABC):
         )
 
     @abstractmethod
-    def get_fulfilment_info(self):
+    def get_fulfilment_info(self) -> str:
         """Function for getting product type"""
         pass

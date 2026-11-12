@@ -79,7 +79,7 @@ def add_product(inventory):
     product_id = input("Product ID: ").strip()
 
     #If product id already exists, product already exists message is printed.
-    if inventory.search_product(product_id) is not None:
+    if inventory.find_product(product_id) is not None:
         print("\nProduct already exists.")
         return
 
@@ -171,7 +171,7 @@ def update_stock(inventory):
     # User input for product id of stock to update
     product_id = input("Enter Product ID: ").strip()
 
-    product = inventory.search_product(product_id)
+    product = inventory.find_product(product_id)
 
     # If product id does not exist in inventory, product not found message is printed.
     if product is None:
@@ -212,7 +212,7 @@ def search_product(inventory):
     # User input for product id to search
     product_id = input("Enter Product ID: ").strip()
 
-    product = inventory.search_product(product_id)
+    product = inventory.find_product(product_id)
 
     # If product id does not exist in inventory, product not found message is printed.
     if product is None:

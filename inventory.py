@@ -13,13 +13,13 @@ class Inventory:
         If product_id is unique, the product is added to list and True is returned.
         """
 
-        if self.search_product(product.get_product_id()) is not None:
+        if self.find_product(product.get_product_id()) is not None:
             return False
 
         self.__products.append(product)
         return True
 
-    def search_product(self, product_id: str) -> Product | None:
+    def find_product(self, product_id: str) -> Product | None:
         """
         Function for searching product
         If the product_id exists, the product is returned.
@@ -51,7 +51,7 @@ class Inventory:
 
         print("-" * 48)
 
-    def get_products(self):
+    def get_products(self) -> list[Product]:
         """
         Function for returning a copy of the list of products
         """
