@@ -365,7 +365,7 @@ def main():
 
         # If menu option input is not any of the options 1-6, print error message and ask user to re-enter
         else:
-            print("\nInvalid option. Please re-eneter options 1-6")
+            print("\nInvalid option. Please re-eneter options 1-7")
 
 if __name__ == "__main__":
     main()
