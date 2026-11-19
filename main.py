@@ -2,12 +2,13 @@
 import json
 import os
 
-# import Inventory, PhysicalProduct, DigitalProduct, CanBeShipped and Supplier classes
+# import Inventory, PhysicalProduct, DigitalProduct, CanBeShipped, Supplier and ProductFactory classes
 from inventory import Inventory
 from physical_product import PhysicalProduct
 from digital_product import DigitalProduct
 from can_be_shipped import CanBeShipped
 from supplier import Supplier
+from product_factory import ProductFactory
 
 # inventory.json file
 INVENTORY_FILE = "inventory.json"
@@ -49,11 +50,11 @@ def load_inventory():
 
                 # If product type is physical product, a Physical Product object is created.
                 if product_type == "physical":
-                    product = PhysicalProduct(product_id, details["name"], float(details["price"]), int(details["stock"]), float(details["weight"]), supplier)
+                    product = ProductFactory.create(product_id, details["name"], float(details["price"]), int(details["stock"]), float(details["weight"]), supplier)
 
                 # If product type is digital product, a Digital Product object is created.
                 elif product_type == "digital":
-                    product = DigitalProduct(product_id, details["name"], float(details["price"]), int(details["stock"]), float(details["download_size"]), supplier)
+                    product = ProductFactory.create(product_id, details["name"], float(details["price"]), int(details["stock"]), float(details["download_size"]), supplier)
 
                 # If product type is neither physical nor digital, invalid product type message is printed and the product is skipped.
                 else:
@@ -146,7 +147,7 @@ def add_product(inventory):
             return
 
         # A Physical Product object is created.
-        product = PhysicalProduct(product_id, product_name, price, stock, weight, supplier)
+        product = ProductFactory.create(product_id, product_name, price, stock, weight, supplier)
 
     # If product type is digital product, prompt user for download size input.
     elif product_type == "2":
@@ -164,7 +165,7 @@ def add_product(inventory):
             return
 
         # A Digital Product object is created.
-        product = DigitalProduct(product_id, product_name, price, stock, download_size, supplier)
+        product = ProductFactory.create(product_id, product_name, price, stock, download_size, supplier)
 
     # If product type input is invalid, error message is printed.
     else:
