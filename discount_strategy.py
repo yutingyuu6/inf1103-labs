@@ -58,3 +58,16 @@ class BulkDiscount(DiscountStrategy):
         e.g. BulkDiscount(200, 20) takes 20 off any total of 200 or more.
         """
         return total - self.__amount if total >= self.__threshold else total
+
+class StudentDiscount(DiscountStrategy):
+    """
+    Class for StudentDiscount,
+    inherited from base class DiscountStrategy
+    """
+
+    def apply(self, total: float) -> float:
+        """
+        Function for calculating after 5% student discount.
+        """
+        
+        return total * 0.95
