@@ -2,7 +2,7 @@
     "P001": {
         "name": "Laptop",
         "price": 1200.0,
-        "stock": 15,
+        "stock": 24,
         "supplier": {
             "supplier_id": "S001",
             "name": "Apple",
@@ -35,16 +35,16 @@
         "type": "physical",
         "weight": 0.5
     },
-    "D002": {
-        "name": "MySQL E-book",
-        "price": 20.99,
-        "stock": 28,
+    "P003": {
+        "name": "Keyboard",
+        "price": 39.9,
+        "stock": 13,
         "supplier": {
-            "supplier_id": "S004",
-            "name": "MySQL",
-            "contact_email": "mysql@email.com"
+            "supplier_id": "S003",
+            "name": "Lenovo",
+            "contact_email": "lenovo@email.com"
         },
-        "type": "digital",
-        "download_size": 50.0
+        "type": "physical",
+        "weight": 1.0
     }
 }
