@@ -13,6 +13,24 @@ from product_factory import ProductFactory
 # inventory.json file
 INVENTORY_FILE = "inventory.json"
 
+def get_positive_float(prompt: str) -> float:
+    """
+    Helper function to prompt user for a positive price
+    """
+
+    while True:
+        try:
+            value = float(input(prompt))
+
+            if value <= 0:
+                print("Please enter a number greater than zero.")
+                continue
+
+            return value
+
+        except ValueError:
+            print("Please enter a valid number, e.g. 12.50")
+
 def load_inventory():
     """
     Function for loading inventory
