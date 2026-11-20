@@ -1,6 +1,7 @@
-# import json and os modules
+# import json, os and csv modules
 import json
 import os
+import csv
 
 # import Inventory, PhysicalProduct, DigitalProduct, CanBeShipped, Supplier and ProductFactory classes
 from inventory import Inventory
@@ -48,6 +49,44 @@ def get_non_negative_number(prompt: str, cast = float) -> float | int:
 
         except ValueError:
             print("Please enter a valid number.")
+
+def load_products(path: str, inventory: Inventory, supplier: Supplier) -> None:
+    """
+    Function to read, create and add products from CSV file to Inventory
+    """
+
+    try:
+        file = open(path, newline="")
+
+    except FileNotFoundError:
+        print(f"Products file not found: {path}")
+
+    else:
+        loaded = 0
+
+        with file:
+            reader = csv.reader(file)
+            next(reader, None)
+
+            for row in reader:
+                try:
+                    product_type, product_id, name, price, stock, * rest = row
+                    extra = float(rest[0]) if rest else 0.0
+                    product = ProductFactory.create(product_type, product_id, name, float(price), int(stock), extra, supplier)
+
+                    if inventory.add_product(product):
+                        loaded += 1
+
+                    else:
+                        print(f"Skipping row {row}: duplicate product ID.")
+
+                except ValueError as e:
+                    print(f"Skipping row {row}: {e}")
+
+        print(f"{loaded} product loaded.")
+
+    finally:
+        print("Load attempt finished.")           
 
 def load_inventory():
     """
