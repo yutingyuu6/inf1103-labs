@@ -121,7 +121,7 @@ def add_product(inventory):
 
     try:
         # User inputs for price and stock quantity
-        price = float(input("Price: "))
+        price = get_positive_float("Price: ")
         stock = int(input("Stock Quantity: "))
 
         # If price or stock is negative, error message is printed.
