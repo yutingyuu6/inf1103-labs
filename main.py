@@ -31,6 +31,24 @@ def get_positive_float(prompt: str) -> float:
         except ValueError:
             print("Please enter a valid number, e.g. 12.50")
 
+def get_non_negative_number(prompt: str, cast = float) -> float | int:
+    """
+    Helper function to prompt user for a non-negative input
+    """
+
+    while True:
+        try:
+            value = cast(input(prompt))
+
+            if value < 0:
+                print("Please enter a number which is not negative.")
+                continue
+
+            return value
+
+        except ValueError:
+            print("Please enter a valid number.")
+
 def load_inventory():
     """
     Function for loading inventory
@@ -119,20 +137,10 @@ def add_product(inventory):
         print("\nProduct Name cannot be empty.")
         return
 
-    try:
-        # User inputs for price and stock quantity
-        price = get_positive_float("Price: ")
-        stock = int(input("Stock Quantity: "))
 
-        # If price or stock is negative, error message is printed.
-        if price < 0 or stock < 0:
-            print("\nPrice and stock cannot be negative.")
-            return
-
-    # If price or stock value is invalid, error message is printed.
-    except ValueError:
-        print("\nInvalid price or stock quantity.")
-        return
+    # User inputs for price and stock quantity
+    price = get_positive_float("Price: ")
+    stock = get_non_negative_number("Stock Quantity: ", int)
 
     # User inputs for supplier
     supplier_id = input("Supplier ID: ").strip()
@@ -151,43 +159,25 @@ def add_product(inventory):
 
     # If product type is physical product, prompt user for weight input.
     if product_type == "1":
-        try:
-            weight = float(input("Weight (kg): "))
-
-            # If weight input is negative, error message is printed.
-            if weight < 0:
-                print("\nWeight cannot be negative.")
-                return
-
-        # If weight input is invalid, error message is printed.
-        except ValueError:
-            print("\nInvalid weight.")
-            return
-
-        # A Physical Product object is created.
-        product = ProductFactory.create(product_id, product_name, price, stock, weight, supplier)
+        product_type = "physical"
+        extra = get_non_negative_number("Weight (kg): ")
 
     # If product type is digital product, prompt user for download size input.
     elif product_type == "2":
-        try:
-            download_size = float(input("Download Size (MB): "))
-
-            # If download size input is negative, error message is printed.
-            if download_size < 0:
-                print("\nDownload size cannot be negative.")
-                return
-
-        # If download size input is invalid, error message is printed.
-        except ValueError:
-            print("\nInvalid download size.")
-            return
-
-        # A Digital Product object is created.
-        product = ProductFactory.create(product_id, product_name, price, stock, download_size, supplier)
+        product_type = "digital"
+        extra = get_non_negative_number("Download Size (MB): ")
 
     # If product type input is invalid, error message is printed.
     else:
         print("\nInvalid product type.")
+        return
+
+    # Create Product using ProductFactory
+    try:
+        product = ProductFactory.create(product_type, product_id, product_name, price, stock, extra, supplier)
+
+    except ValueError as e:
+        print(f"\n{e}")
         return
 
     # If Product is added to inventory successfully, product added successfully message is printed.
