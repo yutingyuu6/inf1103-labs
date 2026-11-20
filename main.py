@@ -113,30 +113,24 @@ def load_inventory():
             # For every product in saved inventory data, each saved dictionary is converted to a Product object.
             for product_id, details in saved_inventory.items():
 
-                supplier_details = details["supplier"]
+                try:
+                    supplier_details = details["supplier"]
 
-                supplier = Supplier(
-                    supplier_id=supplier_details["supplier_id"],
-                    name=supplier_details["name"],
-                    contact_email=supplier_details["contact_email"]
-                )
+                    supplier = Supplier(
+                        supplier_id=supplier_details["supplier_id"],
+                        name=supplier_details["name"],
+                        contact_email=supplier_details["contact_email"]
+                    )
 
-                product_type = details["type"]
+                    product_type = details["type"]
+                    extra = details["weight"] if product_type == "physical" else details["download_size"]
 
-                # If product type is physical product, a Physical Product object is created.
-                if product_type == "physical":
-                    product = ProductFactory.create(product_id, details["name"], float(details["price"]), int(details["stock"]), float(details["weight"]), supplier)
+                    product = ProductFactory.create(product_type, product_id, details["name"], float(details["price"]), int(details["stock"]), float(extra), supplier)
 
-                # If product type is digital product, a Digital Product object is created.
-                elif product_type == "digital":
-                    product = ProductFactory.create(product_id, details["name"], float(details["price"]), int(details["stock"]), float(details["download_size"]), supplier)
+                    inventory.add_product(product)
 
-                # If product type is neither physical nor digital, invalid product type message is printed and the product is skipped.
-                else:
-                    print(f"Invalid product type for product ID {product_id}.")
-                    continue
-
-                inventory.add_product(product)
+                except (KeyError, ValueError) as e:
+                    print(f"Skipping product {product_id}: {e}")
 
             print("Inventory loaded successfully.")
             return inventory
