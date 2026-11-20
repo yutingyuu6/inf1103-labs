@@ -83,7 +83,7 @@ def load_products(path: str, inventory: Inventory, supplier: Supplier) -> None:
                 except ValueError as e:
                     print(f"Skipping row {row}: {e}")
 
-        print(f"{loaded} product loaded.")
+        print(f"{loaded} products loaded.")
 
     finally:
         print("Load attempt finished.")           
