@@ -5,6 +5,16 @@ class Product(ABC):
     """Abstract class for Product"""
 
     def __init__(self, product_id: str, name: str, price: float, stock: int, supplier: Supplier):
+        """
+        Validation checks for price and stock in Product class.
+        """
+        
+        if price <= 0:
+            raise ValueError("Price must be greater than zero.")
+
+        if stock < 0:
+            raise ValueError("Stock quantity cannot be negative.")
+        
         self.__product_id = product_id
         self.__name = name
         self.__price = price
